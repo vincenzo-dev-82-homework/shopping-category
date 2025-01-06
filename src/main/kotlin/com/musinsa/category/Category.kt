@@ -8,15 +8,13 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "categories")
+@Table(name = "CATEGORY")
 class Category(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-
     @Column(nullable = false, unique = true)
     var name: String,
-
     @Column
-    var description: String? = null
+    var description: String? = null,
 )

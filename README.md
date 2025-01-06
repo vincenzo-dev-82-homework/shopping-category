@@ -14,12 +14,6 @@
 * Gradle build version 을 참고하여 8.5 를 선택
     * https://docs.gradle.org/current/userguide/compatibility.html
 
-### 도커 실행
-* 프로젝트 실헹에 필요한 리소스들을 띄운다
-```bash
-docker-compose up -d
-```
-
 ### 빌드 및 프로젝트 실행
 ```bash
 ./gradlew wrapper --gradle-version=8.5 --distribution-type=bin
@@ -28,6 +22,12 @@ docker-compose up -d
 ./gradlew build
 ./gradlew bootRun
 ```
+
+### H2 console
+* http://localhost:8080/h2-console
+* url: jdbc:h2:mem:musinsa;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+* username: sa
+* password:
 
 ### 스웨거
 * http://localhost:8080/swagger-ui.html

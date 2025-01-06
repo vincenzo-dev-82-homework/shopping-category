@@ -10,21 +10,17 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
-
 @Entity
-@Table(name = "products")
+@Table(name = "PRODUCT")
 class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-
     @Column(nullable = false)
     var name: String,
-
     @Column(nullable = false)
     var price: Int,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
-    val brand: Brand
+    val brand: Brand,
 )
