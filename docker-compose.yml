@@ -1,0 +1,12 @@
+services:
+  mysql:
+    image: mysql:8.0.31
+    command: "mysqld --character-set-server=utf8mb4"
+    environment:
+      MYSQL_ROOT_PASSWORD: local
+      MYSQL_DATABASE: musinsa
+      MYSQL_USER: local
+      MYSQL_PASSWORD: local
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "9306:3306"
