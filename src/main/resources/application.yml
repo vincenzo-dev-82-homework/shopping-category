@@ -8,7 +8,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:h2:mem:musinsa;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:musinsa;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -20,7 +20,7 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     open-in-view: false
     generate-ddl: true
     show-sql: true
@@ -33,9 +33,14 @@ spring:
         use_sql_comments: true
         default_batch_fetch_size: 50
         dialect: org.hibernate.dialect.MySQLDialect
+#        hibernate.hbm2ddl.import_files: sql/schema-drop.sql
 
 springdoc:
   show-actuator: false
   swagger-ui:
     enabled: true
     tagsSorter: alpha
+
+logging:
+  level:
+    org.hibernate.tool.schema: ERROR
