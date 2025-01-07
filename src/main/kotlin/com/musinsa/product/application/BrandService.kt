@@ -22,7 +22,7 @@ class BrandService(
 
     @Transactional
     fun update(request: BrandResources.RequestDTO): Brand {
-        val brand =
+        var brand =
             brandRepository
                 .findById(request.id!!)
                 .orElseThrow { IllegalArgumentException("Brand with ID ${request.id} not found") }
@@ -39,7 +39,7 @@ class BrandService(
 
     @Transactional
     fun delete(brand: Brand) {
-        brand.off()
+        brand.terminate()
         brandRepository.delete(brand)
     }
 

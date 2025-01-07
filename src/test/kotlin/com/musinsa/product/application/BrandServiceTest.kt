@@ -79,7 +79,7 @@ class BrandServiceTest {
 
         // Then
         verify(brandRepository).delete(expected)
-        assertTrue(expected.isOff())
+        assertTrue(expected.isTerminated())
     }
 
     @Test

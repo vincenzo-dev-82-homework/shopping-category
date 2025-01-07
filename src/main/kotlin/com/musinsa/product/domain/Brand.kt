@@ -32,6 +32,8 @@ data class Brand(
         this.status = Status.OFF
     }
 
+    fun isTerminated(): Boolean = this.status == Status.TERMINATED
+
     fun terminate() {
         this.status = Status.TERMINATED
     }
