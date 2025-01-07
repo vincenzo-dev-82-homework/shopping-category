@@ -1,5 +1,6 @@
 package com.musinsa.product.domain
 
+import com.musinsa.common.Audit
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -21,4 +22,4 @@ data class Product(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
     val brand: Brand,
-)
+) : Audit()

@@ -1,8 +1,26 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:musinsa_testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:musinsa_testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false
     username: sa
     password:
+    driver-class-name: org.h2.Driver
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
   jpa:
     hibernate:
       ddl-auto: create-drop
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true # 큰따옴표 제거
+        globally_quoted_identifiers_skip_column_definitions: true
+        auto_quoting_enabled: true
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+logging:
+  level:
+    org.hibernate.tool.schema: ERROR

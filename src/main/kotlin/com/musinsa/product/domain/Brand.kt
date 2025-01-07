@@ -1,5 +1,6 @@
 package com.musinsa.product.domain
 
+import com.musinsa.common.Audit
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -13,4 +14,6 @@ data class Brand(
     val id: Long? = null,
     @Column(nullable = false, unique = true)
     val name: String,
-)
+) : Audit() {
+    companion object
+}

@@ -1,5 +1,6 @@
 package com.musinsa.category.domain
 
+import com.musinsa.common.Audit
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -22,6 +23,6 @@ data class Category(
     val category: CategoryType,
     @Column
     var description: String? = null,
-) {
+) : Audit() {
     companion object
 }
