@@ -35,8 +35,8 @@ class ProductController(
     ): ResponseEntity<ProductResources.ResponseModel> {
         val product = productService.create(request)
         val productModel = ProductResources.ResponseModel(id = product.id!!)
-        val brandWithLinks = productResponseModelAssembler.toModel(productModel)
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandWithLinks)
+        val productWithLinks = productResponseModelAssembler.toModel(productModel)
+        return ResponseEntity.status(HttpStatus.CREATED).body(productWithLinks)
     }
 
     @Operation(
@@ -52,17 +52,49 @@ class ProductController(
     }
 
     @Operation(
-        summary = "상품 조회 API",
+        summary = "상품 단일 조회 API",
         description = """
             - 상품을 조회 합니다.
             - 유니크한 상품 ID로 상품을 조회합니다.
         """,
     )
     @GetMapping("/{productId}")
-    fun findBrandById(
+    fun findProductById(
         @PathVariable("productId") id: Long,
     ): ResponseEntity<ProductResources.ResponseDTO> {
         val product = productService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(product)
+    }
+
+    @Operation(
+        summary = "상품 수정 API",
+        description = """
+            - 상품 정보를 수정합니다.
+            - 상품 ID가 필요합니다.
+        """,
+    )
+    @PostMapping("/update")
+    fun updateProduct(
+        @RequestBody request: ProductResources.UpdateDTO,
+    ): ResponseEntity<ProductResources.ResponseModel> {
+        val product = productService.update(request)
+        val productModel = ProductResources.ResponseModel(id = product.id!!)
+        val productWithLinks = productResponseModelAssembler.toModel(productModel)
+        return ResponseEntity.status(HttpStatus.OK).body(productWithLinks)
+    }
+
+    @Operation(
+        summary = "상품 삭제 API",
+        description = """
+            - 상품을 삭제합니다.
+            - 상품 ID가 필요합니다.
+        """,
+    )
+    @PostMapping("/delete")
+    fun deleteProduct(
+        @RequestBody request: ProductResources.DeleteDTO,
+    ): ResponseEntity<Void> {
+        productService.delete(request)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }

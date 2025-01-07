@@ -26,7 +26,7 @@ class ProductResponseModelAssembler : RepresentationModelAssembler<ProductResour
             ).withRel("[GET]상품 목록 조회 API")
         val singleLink =
             linkTo(
-                methodOn(ProductController::class.java).findBrandById(product.id),
+                methodOn(ProductController::class.java).findProductById(product.id),
             ).withRel("[GET]상품 단일 조회 API")
         product.add(selfLink, listLink, singleLink)
         return product
