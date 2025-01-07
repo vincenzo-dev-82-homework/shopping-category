@@ -3,6 +3,8 @@ package com.musinsa.product.domain
 import com.musinsa.common.Audit
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -14,6 +16,31 @@ data class Brand(
     val id: Long? = null,
     @Column(nullable = false, unique = true)
     val name: String,
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    var status: Status = Status.ON,
 ) : Audit() {
+    fun on() {
+        this.status = Status.ON
+    }
+
+    fun off() {
+        this.status = Status.OFF
+    }
+
+    fun isOff(): Boolean = this.status == Status.OFF
+
+    fun terminate() {
+        this.status = Status.TERMINATED
+    }
+
+    enum class Status(
+        val desc: String,
+    ) {
+        ON("사용"),
+        OFF("중지"),
+        TERMINATED("종료"),
+    }
+
     companion object
 }

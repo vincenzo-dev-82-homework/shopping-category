@@ -1,9 +1,7 @@
-package com.musinsa.product
+package com.musinsa.product.infrastructure
 
 import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.Product
-import com.musinsa.product.infrastructure.BrandJpaRepository
-import com.musinsa.product.infrastructure.ProductJpaRepository
+import com.musinsa.product.domain.aDummy
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -16,25 +14,18 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
-class ProductJpaRepositoryTest {
+class BrandJpaRepositoryTest {
     @Autowired
     private lateinit var brandJpaRepository: BrandJpaRepository
 
-    @Autowired
-    private lateinit var productJpaRepository: ProductJpaRepository
-
-    @DisplayName("상품을 생성하고 조회한다.")
+    @DisplayName("브랜드를 생성하고 조회한다.")
     @Test
-    fun `save then find product`() {
+    fun `save then find brand`() {
         val brand = Brand.aDummy()
         val savedBrand = brandJpaRepository.save(brand)
+        val findedBrand = brandJpaRepository.findById(savedBrand.id!!)
 
-        val product = Product.aDummy(savedBrand)
-        val saved = productJpaRepository.save(product)
-        val finded = productJpaRepository.findById(saved.id!!)
-
-        assertTrue(finded.isPresent)
-        assertEquals(product.name, finded.get().name)
-        assertEquals(brand.name, finded.get().brand.name)
+        assertTrue(findedBrand.isPresent)
+        assertEquals("A", findedBrand.get().name)
     }
 }
