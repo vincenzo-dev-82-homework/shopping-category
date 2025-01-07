@@ -15,7 +15,7 @@ data class Brand(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column(nullable = false, unique = true)
-    val name: String,
+    var name: String,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: Status = Status.ON,
@@ -42,6 +42,11 @@ data class Brand(
         ON("사용"),
         OFF("중지"),
         TERMINATED("종료"),
+        ;
+
+        companion object {
+            fun fromDesc(desc: String): Status? = Status.values().find { it.desc == desc }
+        }
     }
 
     companion object

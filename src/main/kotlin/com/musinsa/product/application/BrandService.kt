@@ -1,6 +1,6 @@
 package com.musinsa.product.application
 
-import com.musinsa.product.api.BrandResources
+import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
 import org.springframework.stereotype.Service
@@ -21,7 +21,21 @@ class BrandService(
     }
 
     @Transactional
-    fun update(brand: Brand): Brand = brandRepository.save(brand)
+    fun update(request: BrandResources.RequestDTO): Brand {
+        val brand =
+            brandRepository
+                .findById(request.id!!)
+                .orElseThrow { IllegalArgumentException("Brand with ID ${request.id} not found") }
+
+        request.name.let { brand.name = it }
+        request.status?.let {
+            val status =
+                Brand.Status.fromDesc(it)
+                    ?: throw IllegalArgumentException("Invalid status: $it")
+            brand.status = status
+        }
+        return brandRepository.save(brand)
+    }
 
     @Transactional
     fun delete(brand: Brand) {

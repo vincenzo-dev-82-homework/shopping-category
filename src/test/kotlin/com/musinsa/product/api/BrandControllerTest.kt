@@ -1,6 +1,7 @@
 package com.musinsa.product.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.application.BrandService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

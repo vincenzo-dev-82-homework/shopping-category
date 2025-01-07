@@ -1,10 +1,12 @@
 package com.musinsa.product.application
 
-import com.musinsa.product.api.BrandResources
+import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
 import com.musinsa.product.domain.aDummy
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.mock
@@ -15,6 +17,7 @@ import java.util.Optional
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@ExtendWith(MockitoExtension::class)
 class BrandServiceTest {
     private val brandRepository: BrandRepository = mock()
     private val brandService = BrandService(brandRepository)
@@ -39,17 +42,30 @@ class BrandServiceTest {
     }
 
     @Test
-    fun `update save then return brand`() {
+    fun `update brand's name and status`() {
         // Given
-        val expected = Brand.aDummy()
-        whenever(brandRepository.save(expected)).thenReturn(expected)
+        val existingBrand = Brand(id = 1L, name = "나이스", status = Brand.Status.ON)
+        val updatedName = "나이키"
+        val updatedStatus = "중지"
+        val request = BrandResources.RequestDTO(id = 1L, name = updatedName, status = updatedStatus)
+
+        whenever(brandRepository.findById(1L)).thenReturn(Optional.of(existingBrand))
+        whenever(brandRepository.save(any())).thenReturn(
+            existingBrand.apply {
+                name = updatedName
+                status = Brand.Status.OFF
+            },
+        )
 
         // When
-        val actual = brandService.update(expected)
+        val updatedBrand = brandService.update(request)
 
         // Then
-        verify(brandRepository).save(expected)
-        assertEquals(expected, actual)
+        verify(brandRepository).findById(1L)
+        verify(brandRepository).save(existingBrand)
+
+        assertEquals(updatedName, updatedBrand.name)
+        assertEquals(Brand.Status.OFF, updatedBrand.status)
     }
 
     @Test

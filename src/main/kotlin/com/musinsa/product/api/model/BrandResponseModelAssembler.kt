@@ -1,7 +1,6 @@
-package com.musinsa.product.api.assembler
+package com.musinsa.product.api.model
 
 import com.musinsa.product.api.BrandController
-import com.musinsa.product.api.BrandResources
 import org.springframework.hateoas.server.RepresentationModelAssembler
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn

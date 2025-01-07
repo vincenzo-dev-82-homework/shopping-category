@@ -20,7 +20,7 @@ class BrandJpaRepositoryTest {
     @Autowired
     private lateinit var brandJpaRepository: BrandJpaRepository
 
-    @DisplayName("브랜드를 생성하고 조회한다.")
+    @DisplayName("브랜드를 생성한다.")
     @Test
     fun `save then find brand`() {
         val brand = Brand.aDummy()
