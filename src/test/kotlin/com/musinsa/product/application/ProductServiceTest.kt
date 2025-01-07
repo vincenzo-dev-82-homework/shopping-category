@@ -25,65 +25,65 @@ class ProductServiceTest {
     private val productService = ProductService(brandRepository, productRepository)
 
     @Test
-    fun `create should save and return product`() {
+    fun `create save and return product`() {
         // Given
-        val brand = Brand(id = 1L, name = "BrandA")
-        val request =
+        val brand = Brand(id = 1L, name = "나이스")
+        val expected =
             ProductResources.CreateDTO(
-                name = "ProductA",
+                name = "나이스_샹의",
                 price = BigDecimal(1000),
                 brandId = 1L,
             )
         val product =
             Product(
                 id = 1L,
-                name = request.name,
-                price = request.price,
+                name = expected.name,
+                price = expected.price,
                 brand = brand,
             )
         whenever(brandRepository.findById(eq(1L))).thenReturn(Optional.of(brand))
         whenever(productRepository.save(any<Product>())).thenReturn(product)
 
         // When
-        val result = productService.create(request)
+        val actual = productService.create(expected)
 
         // Then
-        assertEquals(request.name, result.name)
-        assertEquals(request.price, result.price)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.price, actual.price)
         verify(productRepository).save(any<Product>())
     }
 
     @Test
-    fun `update should modify and return updated product`() {
+    fun `update modify and return updated product`() {
         // Given
-        val brand = Brand(id = 1L, name = "BrandA")
+        val brand = Brand(id = 1L, name = "나이스")
         val product =
             Product(
                 id = 1L,
-                name = "OldName",
-                price = BigDecimal(500),
+                name = "나이스_샹의",
+                price = BigDecimal(10000),
                 brand = brand,
             )
-        val request =
+        val expected =
             ProductResources.UpdateDTO(
                 id = 1L,
-                name = "NewName",
-                price = BigDecimal(1500),
+                name = "나이스_바지",
+                price = BigDecimal(20000),
             )
         whenever(productRepository.findById(eq(1L))).thenReturn(Optional.of(product))
         whenever(productRepository.save(any<Product>())).thenReturn(product)
 
         // When
-        val result = productService.update(request)
+        val actual = productService.update(expected)
 
         // Then
-        assertEquals(request.name, result.name)
-        assertEquals(request.price, result.price)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.price, actual.price)
         verify(productRepository).save(product)
     }
 
     @Test
-    fun `findById should throw exception if product not found`() {
+    fun `findById throw exception if product not found`() {
         // Given
         whenever(productRepository.findById(eq(1L))).thenReturn(Optional.empty())
 
