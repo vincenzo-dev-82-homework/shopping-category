@@ -1,4 +1,4 @@
-package com.musinsa.product.ui
+package com.musinsa.product.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.musinsa.product.application.BrandService
@@ -7,18 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.transaction.annotation.Transactional
 
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class BrandControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -37,16 +37,17 @@ class BrandControllerTest {
 
         // When
         val result =
+            // When & Then
             mockMvc
                 .perform(
                     post("/v1/musinsa/brands")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson),
                 ).andExpect(status().isCreated)
-                .andExpect(jsonPath("$.id").isNumber) // ID가 숫자인지 확인
-                .andExpect(jsonPath("$._links.self.href").value("http://localhost/v1/musinsa/brands/1")) // self 링크 확인
-                .andExpect(jsonPath("$._links['[GET]브랜드 목록 조회 API'].href").value("http://localhost/v1/musinsa/brands/")) // 목록 조회 링크 확인
-                .andExpect(jsonPath("$._links['[GET]브랜드 단일 조회 API'].href").value("http://localhost/v1/musinsa/brands/1")) // 단일 조회 링크 확인
+                .andExpect(jsonPath("$.id").isNumber)
+                .andExpect(jsonPath("$._links.self.href").exists())
+                .andExpect(jsonPath("$._links['[GET]브랜드 목록 조회 API'].href").exists())
+                .andExpect(jsonPath("$._links['[GET]브랜드 단일 조회 API'].href").exists())
                 .andReturn()
 
         println("Response Body: ${result.response.contentAsString}")

@@ -1,4 +1,4 @@
-package com.musinsa.product.ui
+package com.musinsa.product.api
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.musinsa.product.domain.Brand

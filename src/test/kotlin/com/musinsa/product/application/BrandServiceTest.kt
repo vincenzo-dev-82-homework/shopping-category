@@ -1,9 +1,9 @@
 package com.musinsa.product.application
 
+import com.musinsa.product.api.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
 import com.musinsa.product.domain.aDummy
-import com.musinsa.product.ui.BrandResources
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing

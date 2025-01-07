@@ -66,3 +66,7 @@ allOpen {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
+
+tasks.withType<Test> {
+    maxParallelForks = 1 // 병렬 실행 비활성화
+}

@@ -1,5 +1,6 @@
-package com.musinsa.product.ui
+package com.musinsa.product.api
 
+import com.musinsa.product.api.assembler.BrandResponseModelAssembler
 import com.musinsa.product.application.BrandService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
