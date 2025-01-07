@@ -8,13 +8,17 @@ import com.musinsa.product.domain.ProductRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.math.BigDecimal
 import java.util.Optional
 
+@ExtendWith(MockitoExtension::class)
 class ProductServiceTest {
     private val brandRepository: BrandRepository = mock()
     private val productRepository: ProductRepository = mock()
@@ -37,8 +41,8 @@ class ProductServiceTest {
                 price = request.price,
                 brand = brand,
             )
-        whenever(brandRepository.findById(1L)).thenReturn(Optional.of(brand))
-        whenever(productRepository.save(any())).thenReturn(product)
+        whenever(brandRepository.findById(eq(1L))).thenReturn(Optional.of(brand))
+        whenever(productRepository.save(any<Product>())).thenReturn(product)
 
         // When
         val result = productService.create(request)
@@ -46,7 +50,7 @@ class ProductServiceTest {
         // Then
         assertEquals(request.name, result.name)
         assertEquals(request.price, result.price)
-        verify(productRepository).save(any())
+        verify(productRepository).save(any<Product>())
     }
 
     @Test
@@ -66,8 +70,8 @@ class ProductServiceTest {
                 name = "NewName",
                 price = BigDecimal(1500),
             )
-        whenever(productRepository.findById(1L)).thenReturn(Optional.of(product))
-        whenever(productRepository.save(any())).thenReturn(product)
+        whenever(productRepository.findById(eq(1L))).thenReturn(Optional.of(product))
+        whenever(productRepository.save(any<Product>())).thenReturn(product)
 
         // When
         val result = productService.update(request)
@@ -81,7 +85,7 @@ class ProductServiceTest {
     @Test
     fun `findById should throw exception if product not found`() {
         // Given
-        whenever(productRepository.findById(1L)).thenReturn(Optional.empty())
+        whenever(productRepository.findById(eq(1L))).thenReturn(Optional.empty())
 
         // When & Then
         assertThrows<NoSuchElementException> {
