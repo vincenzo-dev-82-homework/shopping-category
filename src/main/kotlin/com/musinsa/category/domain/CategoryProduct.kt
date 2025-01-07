@@ -1,6 +1,6 @@
-package com.musinsa.category
+package com.musinsa.category.domain
 
-import com.musinsa.product.Product
+import com.musinsa.product.domain.Product
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue

@@ -1,4 +1,4 @@
-package com.musinsa.category
+package com.musinsa.product.domain
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -7,12 +7,10 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-data class Category(
+data class Brand(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @Column(nullable = false, unique = true)
-    var name: String,
-    @Column
-    var description: String? = null,
+    val name: String,
 )

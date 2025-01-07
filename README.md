@@ -1,7 +1,11 @@
 # shopping-category
 
 ---
-## Project
+## 구현 범위
+
+---
+
+## 프로젝트 설정
 ### Version
 ```
 - Spring-Boot 3.3.7 (GA)
@@ -33,3 +37,7 @@
 * http://localhost:8080/swagger-ui.html
 
 ---
+
+○ 구현 범위에 대한 설명
+○ 코드 빌드, 테스트, 실행 방법
+○ 기타 추가 정보

@@ -1,0 +1,19 @@
+package com.musinsa.category.infrastructure
+
+import com.musinsa.category.domain.Category
+import com.musinsa.category.domain.CategoryRepository
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Repository
+
+@Repository
+class CategoryRepositoryImpl(
+    private val categoryJpaRepository: CategoryJpaRepository,
+) : CategoryRepository {
+    override fun findAll(): List<Category> = categoryJpaRepository.findAll()
+
+    override fun findById(id: Long): Category? = categoryJpaRepository.findByIdOrNull(id)
+
+    override fun save(category: Category): Category = categoryJpaRepository.save(category)
+
+    override fun delete(category: Category) = categoryJpaRepository.delete(category)
+}
