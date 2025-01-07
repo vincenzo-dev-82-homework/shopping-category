@@ -32,7 +32,6 @@ class BrandController(
         @RequestBody request: BrandResources.RequestDTO,
     ): ResponseEntity<BrandResources.ResponseModel> {
         val brand = brandService.create(request)
-
         val brandModel = BrandResources.ResponseModel(id = brand.id!!)
         val brandWithLinks = brandResponseModelAssembler.toModel(brandModel)
         return ResponseEntity.status(HttpStatus.CREATED).body(brandWithLinks)
@@ -50,7 +49,7 @@ class BrandController(
         @PathVariable("brandId") id: Long,
     ): ResponseEntity<BrandResources.ResponseDTO> {
         val brand = brandService.findById(id)
-        return ResponseEntity.status(HttpStatus.CREATED).body(brand)
+        return ResponseEntity.status(HttpStatus.OK).body(brand)
     }
 
     @Operation(
@@ -63,6 +62,6 @@ class BrandController(
     @GetMapping("/")
     fun findAll(): ResponseEntity<List<BrandResources.ResponseDTO>> {
         val brands = brandService.findAll()
-        return ResponseEntity.status(HttpStatus.CREATED).body(brands)
+        return ResponseEntity.status(HttpStatus.OK).body(brands)
     }
 }

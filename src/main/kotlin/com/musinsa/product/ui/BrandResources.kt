@@ -19,9 +19,9 @@ class BrandResources {
         val name: String, // 브랜드 이름
         val status: String, // 브랜드 상태
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-        val createdDateTime: LocalDateTime, // 브랜드 생성 시간
+        val createdDateTime: LocalDateTime?, // 브랜드 생성 시간
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-        val updateDateTime: LocalDateTime, // 브랜드 수정 시간
+        val updateDateTime: LocalDateTime?, // 브랜드 수정 시간
     ) {
         companion object {
             fun toResponse(brand: Brand): ResponseDTO =
@@ -29,8 +29,8 @@ class BrandResources {
                     id = brand.id!!,
                     name = brand.name,
                     status = brand.status.name,
-                    createdDateTime = brand.createdAt!!,
-                    updateDateTime = brand.modifiedAt!!,
+                    createdDateTime = brand.createdAt,
+                    updateDateTime = brand.modifiedAt,
                 )
 
             fun toResponse(brands: List<Brand>): List<ResponseDTO> =
@@ -39,8 +39,8 @@ class BrandResources {
                         id = brand.id!!,
                         name = brand.name,
                         status = brand.status.name,
-                        createdDateTime = brand.createdAt!!,
-                        updateDateTime = brand.modifiedAt!!,
+                        createdDateTime = brand.createdAt,
+                        updateDateTime = brand.modifiedAt,
                     )
                 }
         }
