@@ -20,9 +20,7 @@ open class Audit {
 
     @CreatedDate
     var createdAt: LocalDateTime? = null
-        protected set
 
     @LastModifiedDate
     var modifiedAt: LocalDateTime? = null
-        protected set
 }

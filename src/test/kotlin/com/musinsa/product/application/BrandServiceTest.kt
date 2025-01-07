@@ -3,12 +3,15 @@ package com.musinsa.product.application
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
 import com.musinsa.product.domain.aDummy
-import com.musinsa.product.domain.create
+import com.musinsa.product.ui.BrandResources
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import java.time.LocalDateTime
+import java.util.Optional
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -19,56 +22,95 @@ class BrandServiceTest {
     @Test
     fun `create save then return brand`() {
         // Given
-        val brand = Brand.aDummy()
-        whenever(brandRepository.save(brand)).thenReturn(brand)
+        val expected = "나이스"
+        val request = BrandResources.RequestDTO(name = expected)
+        val brand = Brand(name = expected, status = Brand.Status.ON).apply { id = 1L }
+        whenever(brandRepository.save(any())).thenReturn(brand)
+        whenever(brandRepository.findById(1L)).thenReturn(Optional.of(brand))
 
         // When
-        val result = brandService.create(brand)
+        val result = brandService.create(request)
 
         // Then
-        verify(brandRepository).save(brand)
-        assertEquals(brand, result)
+        val actual = brandRepository.findById(result.id!!)
+        verify(brandRepository).save(any())
+        assertTrue(actual.isPresent)
+        assertEquals(expected, actual.get().name)
     }
 
     @Test
     fun `update save then return brand`() {
         // Given
-        val brand = Brand.aDummy()
-        whenever(brandRepository.save(brand)).thenReturn(brand)
+        val expected = Brand.aDummy()
+        whenever(brandRepository.save(expected)).thenReturn(expected)
 
         // When
-        val result = brandService.update(brand)
+        val actual = brandService.update(expected)
 
         // Then
-        verify(brandRepository).save(brand)
-        assertEquals(brand, result)
+        verify(brandRepository).save(expected)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `delete off then save the brand`() {
         // Given
-        val brand = Brand.aDummy()
-        doNothing().whenever(brandRepository).delete(brand)
+        val expected = Brand.aDummy()
+        doNothing().whenever(brandRepository).delete(expected)
 
         // When
-        brandService.delete(brand)
+        brandService.delete(expected)
 
         // Then
-        verify(brandRepository).delete(brand)
-        assertTrue(brand.isOff())
+        verify(brandRepository).delete(expected)
+        assertTrue(expected.isOff())
     }
 
     @Test
     fun `findAll return list of brands`() {
         // Given
-        val brands = listOf(Brand.aDummy(), Brand.create(2L, "B"))
+        val brands =
+            listOf(
+                Brand(name = "나이스1", status = Brand.Status.ON).apply {
+                    id = 1L
+                    createdAt = LocalDateTime.now()
+                    modifiedAt = LocalDateTime.now()
+                },
+                Brand(name = "나이스2", status = Brand.Status.ON).apply {
+                    id = 2L
+                    createdAt = LocalDateTime.now()
+                    modifiedAt = LocalDateTime.now()
+                },
+            )
         whenever(brandRepository.findAll()).thenReturn(brands)
 
         // When
-        val result = brandService.findAll()
+        val actual = brandService.findAll()
 
         // Then
         verify(brandRepository).findAll()
-        assertEquals(brands, result)
+        assertEquals(2, actual.size)
+        assertEquals("나이스1", actual[0].name)
+        assertEquals("나이스2", actual[1].name)
+    }
+
+    @Test
+    fun `findById return brand`() {
+        // Given
+        val expected = "나이스"
+        val brand =
+            Brand(name = expected, status = Brand.Status.ON).apply {
+                id = 1L
+                createdAt = LocalDateTime.now()
+                modifiedAt = LocalDateTime.now()
+            }
+        whenever(brandRepository.findById(1L)).thenReturn(Optional.of(brand))
+
+        // When
+        val actual = brandService.findById(1L)
+
+        // Then
+        verify(brandRepository).findById(1L)
+        assertEquals(expected, actual.name)
     }
 }

@@ -2,8 +2,8 @@ package com.musinsa.product.infrastructure
 
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
+import java.util.Optional
 
 @Repository
 class BrandRepositoryImpl(
@@ -11,7 +11,7 @@ class BrandRepositoryImpl(
 ) : BrandRepository {
     override fun findAll(): List<Brand> = brandJpaRepository.findAll()
 
-    override fun findById(id: Long): Brand? = brandJpaRepository.findByIdOrNull(id)
+    override fun findById(id: Long): Optional<Brand> = brandJpaRepository.findById(id)
 
     override fun save(brand: Brand): Brand = brandJpaRepository.save(brand)
 

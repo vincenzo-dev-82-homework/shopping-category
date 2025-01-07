@@ -13,22 +13,24 @@ import jakarta.persistence.Id
 data class Brand(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    var id: Long? = null,
     @Column(nullable = false, unique = true)
     val name: String,
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: Status = Status.ON,
 ) : Audit() {
+    fun isOn(): Boolean = this.status == Status.ON
+
     fun on() {
         this.status = Status.ON
     }
 
+    fun isOff(): Boolean = this.status == Status.OFF
+
     fun off() {
         this.status = Status.OFF
     }
-
-    fun isOff(): Boolean = this.status == Status.OFF
 
     fun terminate() {
         this.status = Status.TERMINATED
