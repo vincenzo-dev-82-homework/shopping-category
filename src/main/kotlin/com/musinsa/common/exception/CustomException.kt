@@ -30,3 +30,11 @@ class ProductAlreadyExistsException : DataAlreadyExistsException {
 class ProductNotFoundException : DataNotFoundException {
     constructor(message: String, id: Long) : super(ErrorSource(ErrorCode.PD02, message, mapOf("id" to id)))
 }
+
+class CategoryAlreadyExistsException : DataAlreadyExistsException {
+    constructor(message: String, name: String) : super(ErrorSource(ErrorCode.BD01, message, mapOf("name" to name)))
+}
+
+class CategoryFoundException : DataNotFoundException {
+    constructor(message: String, id: Long) : super(ErrorSource(ErrorCode.BD02, message, mapOf("id" to id)))
+}

@@ -16,6 +16,7 @@ spring:
     generate-ddl: true
     show-sql: true
     properties:
+      hibernate.hbm2ddl.import_files: sql/import.sql
       hibernate:
         globally_quoted_identifiers: true # 큰따옴표 제거
         globally_quoted_identifiers_skip_column_definitions: true

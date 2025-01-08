@@ -1,3 +1,7 @@
 package com.musinsa.category.domain.repository
 
-interface CategoryProductRepository
+import com.musinsa.category.domain.entity.CategoryProduct
+
+interface CategoryProductRepository {
+    fun findLowestPriceByCategoryId(categoryId: Long): List<CategoryProduct>
+}
