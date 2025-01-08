@@ -16,4 +16,6 @@ class CategoryRepositoryImpl(
     override fun save(category: Category): Category = categoryJpaRepository.save(category)
 
     override fun delete(category: Category) = categoryJpaRepository.delete(category)
+
+    override fun count(): Long = categoryJpaRepository.count()
 }

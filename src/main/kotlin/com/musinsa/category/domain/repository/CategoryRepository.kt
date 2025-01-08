@@ -10,4 +10,6 @@ interface CategoryRepository {
     fun save(category: Category): Category
 
     fun delete(category: Category)
+
+    fun count(): Long
 }

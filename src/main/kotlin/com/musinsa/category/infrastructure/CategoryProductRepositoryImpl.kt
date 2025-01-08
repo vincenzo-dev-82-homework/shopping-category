@@ -10,4 +10,9 @@ class CategoryProductRepositoryImpl(
 ) : CategoryProductRepository {
     override fun findLowestPriceByCategoryId(categoryId: Long): List<CategoryProduct> =
         categoryProductJpaRepository.findLowestPriceByCategoryId(categoryId)
+
+    override fun findLowestPriceByBrandAndCategory(
+        brandId: Long,
+        categoryId: Long,
+    ): CategoryProduct? = categoryProductJpaRepository.findLowestPriceByBrandAndCategory(brandId, categoryId)
 }

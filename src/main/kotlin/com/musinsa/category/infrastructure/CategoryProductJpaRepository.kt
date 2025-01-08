@@ -19,4 +19,19 @@ interface CategoryProductJpaRepository : JpaRepository<CategoryProduct, Long> {
     fun findLowestPriceByCategoryId(
         @Param("categoryId") categoryId: Long,
     ): List<CategoryProduct> // Optional에서 List로 변경
+
+    @Query(
+        """
+        SELECT cp 
+        FROM CategoryProduct cp
+        JOIN FETCH cp.product p
+        WHERE p.brand.id = :brandId AND cp.category.id = :categoryId
+        ORDER BY p.price ASC
+        LIMIT 1
+        """,
+    )
+    fun findLowestPriceByBrandAndCategory(
+        @Param("brandId") brandId: Long,
+        @Param("categoryId") categoryId: Long,
+    ): CategoryProduct?
 }
