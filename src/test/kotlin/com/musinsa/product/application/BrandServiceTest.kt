@@ -3,12 +3,11 @@ package com.musinsa.product.application
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
-import com.musinsa.product.domain.aDummy
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
-import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -47,7 +46,7 @@ class BrandServiceTest {
         val existingBrand = Brand(id = 1L, name = "나이스", status = Brand.Status.ON)
         val updatedName = "나이키"
         val updatedStatus = "중지"
-        val request = BrandResources.RequestDTO(id = 1L, name = updatedName, status = updatedStatus)
+        val request = BrandResources.UpdateDTO(id = 1L, name = updatedName, status = updatedStatus)
 
         whenever(brandRepository.findById(1L)).thenReturn(Optional.of(existingBrand))
         whenever(brandRepository.save(any())).thenReturn(
@@ -69,17 +68,39 @@ class BrandServiceTest {
     }
 
     @Test
-    fun `delete off then save the brand`() {
+    fun `delete terminate then save`() {
         // Given
-        val expected = Brand.aDummy()
-        doNothing().whenever(brandRepository).delete(expected)
+        val brandId = 1L
+        val brand = Brand(id = brandId, name = "나이스")
+        val deleteDTO = BrandResources.DeleteDTO(id = brandId)
+
+        whenever(brandRepository.findById(brandId)).thenReturn(Optional.of(brand))
 
         // When
-        brandService.delete(expected)
+        brandService.delete(deleteDTO)
 
         // Then
-        verify(brandRepository).delete(expected)
-        assertTrue(expected.isTerminated())
+        verify(brandRepository).findById(brandId)
+        verify(brandRepository).delete(brand)
+        assertTrue(brand.isTerminated()) // 상태가 Terminated로 변경되었는지 확인
+    }
+
+    @Test
+    fun `delete throw exception if brand not found`() {
+        // Given
+        val brandId = 1L
+        val deleteDTO = BrandResources.DeleteDTO(id = brandId)
+
+        whenever(brandRepository.findById(any())).thenReturn(Optional.empty())
+
+        // When & Then
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                brandService.delete(deleteDTO)
+            }
+
+        assertEquals("Brand ID $brandId not found", exception.message)
+        verify(brandRepository).findById(brandId)
     }
 
     @Test

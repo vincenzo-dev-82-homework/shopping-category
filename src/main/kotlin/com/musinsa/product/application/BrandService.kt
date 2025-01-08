@@ -21,14 +21,14 @@ class BrandService(
     }
 
     @Transactional
-    fun update(request: BrandResources.RequestDTO): Brand {
+    fun update(request: BrandResources.UpdateDTO): Brand {
         var brand =
             brandRepository
-                .findById(request.id!!)
-                .orElseThrow { IllegalArgumentException("Brand with ID ${request.id} not found") }
+                .findById(request.id)
+                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
 
         request.name.let { brand.name = it }
-        request.status?.let {
+        request.status.let {
             val status =
                 Brand.Status.fromDesc(it)
                     ?: throw IllegalArgumentException("Invalid status: $it")
@@ -38,7 +38,12 @@ class BrandService(
     }
 
     @Transactional
-    fun delete(brand: Brand) {
+    fun delete(request: BrandResources.DeleteDTO) {
+        var brand =
+            brandRepository
+                .findById(request.id)
+                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
+
         brand.terminate()
         brandRepository.delete(brand)
     }

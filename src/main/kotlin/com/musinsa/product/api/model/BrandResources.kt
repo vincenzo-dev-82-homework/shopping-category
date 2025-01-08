@@ -7,9 +7,17 @@ import java.time.LocalDateTime
 
 class BrandResources {
     data class RequestDTO(
-        val id: Long? = null, // 브랜드 ID
         val name: String, // 브랜드 이름
-        val status: String? = null, // 브랜드 상태
+    )
+
+    data class UpdateDTO(
+        val id: Long, // 브랜드 ID
+        val name: String, // 브랜드 이름
+        val status: String, // 브랜드 상태
+    )
+
+    data class DeleteDTO(
+        val id: Long, // 브랜드 ID
     )
 
     data class ResponseModel(
