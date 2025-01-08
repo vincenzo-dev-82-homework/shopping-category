@@ -8,6 +8,7 @@ internal class CategoryTest
 internal fun Category.Companion.aDummy() =
     Category(
         id = 1L,
-        category = CategoryType.OUTER,
-        description = CategoryType.OUTER.displayName,
+        parent = null,
+        name = CategoryType.TOP.displayName,
+        type = CategoryType.TOP,
     )

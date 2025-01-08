@@ -1,7 +1,6 @@
 package com.musinsa.category
 
 import com.musinsa.category.domain.Category
-import com.musinsa.category.domain.CategoryType
 import com.musinsa.category.infrastructure.CategoryJpaRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -27,6 +26,6 @@ class CategoryJpaRepositoryTest {
         val findedCategory = categoryJpaRepository.findById(savedCategory.id!!)
 
         assertTrue(findedCategory.isPresent)
-        assertEquals(CategoryType.OUTER.name, findedCategory.get().category.name)
+        assertEquals(category.type, findedCategory.get().type)
     }
 }
