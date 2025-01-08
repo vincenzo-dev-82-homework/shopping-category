@@ -1,9 +1,11 @@
 package com.musinsa.product.application
 
+import com.musinsa.common.exception.BrandAlreadyExistsException
 import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,12 +15,16 @@ class BrandService(
 ) {
     @Transactional
     fun create(request: BrandResources.RequestDTO): Brand {
-        val brand =
-            Brand(
-                name = request.name,
-                status = Brand.Status.ON,
-            )
-        return brandRepository.save(brand)
+        try {
+            val brand =
+                Brand(
+                    name = request.name,
+                    status = Brand.Status.ON,
+                )
+            return brandRepository.save(brand)
+        } catch (ex: DataIntegrityViolationException) {
+            throw BrandAlreadyExistsException("Brand Name ${request.name} Already found", request.name)
+        }
     }
 
     @Transactional

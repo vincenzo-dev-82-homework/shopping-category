@@ -1,10 +1,13 @@
 package com.musinsa.product.application
 
+import com.musinsa.common.exception.BrandNotFoundException
+import com.musinsa.common.exception.ProductAlreadyExistsException
 import com.musinsa.common.exception.ProductNotFoundException
 import com.musinsa.product.api.model.ProductResources
 import com.musinsa.product.domain.BrandRepository
 import com.musinsa.product.domain.Product
 import com.musinsa.product.domain.ProductRepository
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,14 +18,21 @@ class ProductService(
 ) {
     @Transactional
     fun create(request: ProductResources.CreateDTO): Product {
-        val brand = brandRepository.findById(request.brandId).get()
-        var product =
-            Product(
-                name = request.name,
-                price = request.price,
-                brand = brand,
-            )
-        return productRepository.save(product)
+        val brand =
+            brandRepository
+                .findById(request.brandId)
+                .orElseThrow { BrandNotFoundException("Brand ${request.brandId} not found", request.brandId) }
+        try {
+            var product =
+                Product(
+                    name = request.name,
+                    price = request.price,
+                    brand = brand,
+                )
+            return productRepository.save(product)
+        } catch (ex: DataIntegrityViolationException) {
+            throw ProductAlreadyExistsException("Product Name ${request.name} Already found", request.name)
+        }
     }
 
     @Transactional
