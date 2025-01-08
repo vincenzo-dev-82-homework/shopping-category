@@ -78,4 +78,15 @@ class CategoryResources {
         val categoryName: String, // 카테고리 이름
         val price: BigDecimal, // 가격
     )
+
+    data class PriceResponse(
+        val categoryName: String, // 카테고리 이름
+        val lowestPrice: List<PriceDetailDTO>, // 최저가 브랜드 및 가격
+        val highestPrice: List<PriceDetailDTO>, // 최고가 브랜드 및 가격
+    )
+
+    data class PriceDetailDTO(
+        val brandName: String, // 브랜드 이름
+        val price: BigDecimal, // 가격
+    )
 }

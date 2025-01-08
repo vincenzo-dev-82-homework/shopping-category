@@ -7,6 +7,8 @@ interface CategoryRepository {
 
     fun findById(id: Long): Category?
 
+    fun findByName(name: String): Category?
+
     fun save(category: Category): Category
 
     fun delete(category: Category)

@@ -13,6 +13,8 @@ class CategoryRepositoryImpl(
 
     override fun findById(id: Long): Category? = categoryJpaRepository.findByIdOrNull(id)
 
+    override fun findByName(name: String): Category? = categoryJpaRepository.findByName(name).orElse(null)
+
     override fun save(category: Category): Category = categoryJpaRepository.save(category)
 
     override fun delete(category: Category) = categoryJpaRepository.delete(category)
