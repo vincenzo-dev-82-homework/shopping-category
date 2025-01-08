@@ -3,8 +3,8 @@ package com.musinsa.product.application
 import com.musinsa.common.exception.BrandAlreadyExistsException
 import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
-import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.BrandRepository
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.repository.BrandRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

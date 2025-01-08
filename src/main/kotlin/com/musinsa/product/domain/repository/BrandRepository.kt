@@ -1,5 +1,6 @@
-package com.musinsa.product.domain
+package com.musinsa.product.domain.repository
 
+import com.musinsa.product.domain.entity.Brand
 import java.util.Optional
 
 interface BrandRepository {

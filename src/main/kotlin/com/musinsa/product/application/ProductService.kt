@@ -4,9 +4,9 @@ import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.common.exception.ProductAlreadyExistsException
 import com.musinsa.common.exception.ProductNotFoundException
 import com.musinsa.product.api.model.ProductResources
-import com.musinsa.product.domain.BrandRepository
-import com.musinsa.product.domain.Product
-import com.musinsa.product.domain.ProductRepository
+import com.musinsa.product.domain.entity.Product
+import com.musinsa.product.domain.repository.BrandRepository
+import com.musinsa.product.domain.repository.ProductRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,7 +1,7 @@
 package com.musinsa.product.infrastructure
 
-import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.aDummy
+import com.musinsa.product.domain.entity.Brand
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName

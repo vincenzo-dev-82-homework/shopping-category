@@ -1,7 +1,7 @@
 package com.musinsa.product.infrastructure
 
-import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.BrandRepository
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.repository.BrandRepository
 import org.springframework.stereotype.Repository
 import java.util.Optional
 

@@ -2,8 +2,8 @@ package com.musinsa.product.application
 
 import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
-import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.BrandRepository
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.repository.BrandRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith

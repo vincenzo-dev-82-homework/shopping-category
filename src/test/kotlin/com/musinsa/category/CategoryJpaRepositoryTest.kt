@@ -1,6 +1,6 @@
 package com.musinsa.category
 
-import com.musinsa.category.domain.Category
+import com.musinsa.category.domain.entity.Category
 import com.musinsa.category.infrastructure.CategoryJpaRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

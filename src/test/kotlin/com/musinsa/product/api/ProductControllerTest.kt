@@ -2,10 +2,10 @@ package com.musinsa.product.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.musinsa.product.api.model.ProductResources
-import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.BrandRepository
-import com.musinsa.product.domain.Product
-import com.musinsa.product.domain.ProductRepository
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.entity.Product
+import com.musinsa.product.domain.repository.BrandRepository
+import com.musinsa.product.domain.repository.ProductRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -128,7 +128,7 @@ class ProductControllerTest {
         // Given
         val product1 =
             productRepository.save(
-                com.musinsa.product.domain.Product(
+                Product(
                     name = "상품 A",
                     price = BigDecimal(1000),
                     brand = brand,
@@ -136,7 +136,7 @@ class ProductControllerTest {
             )
         val product2 =
             productRepository.save(
-                com.musinsa.product.domain.Product(
+                Product(
                     name = "상품 B",
                     price = BigDecimal(2000),
                     brand = brand,
@@ -158,7 +158,7 @@ class ProductControllerTest {
         // Given
         val product =
             productRepository.save(
-                com.musinsa.product.domain.Product(
+                Product(
                     name = "상품 A",
                     price = BigDecimal(1000),
                     brand = brand,

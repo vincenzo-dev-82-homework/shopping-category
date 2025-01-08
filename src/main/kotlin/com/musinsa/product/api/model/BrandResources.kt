@@ -1,7 +1,7 @@
 package com.musinsa.product.api.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.musinsa.product.domain.Brand
+import com.musinsa.product.domain.entity.Brand
 import org.springframework.hateoas.RepresentationModel
 import java.time.LocalDateTime
 

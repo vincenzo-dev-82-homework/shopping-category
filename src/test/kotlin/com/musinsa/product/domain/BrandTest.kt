@@ -1,5 +1,7 @@
 package com.musinsa.product.domain
 
+import com.musinsa.product.domain.entity.Brand
+
 internal class BrandTest
 
 internal fun Brand.Companion.aDummy() =

@@ -3,8 +3,8 @@ package com.musinsa.product.api
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.application.BrandService
-import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.BrandRepository
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.repository.BrandRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

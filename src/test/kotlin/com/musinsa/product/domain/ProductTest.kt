@@ -1,5 +1,7 @@
 package com.musinsa.product.domain
 
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.entity.Product
 import java.math.BigDecimal
 
 internal class ProductTest

@@ -1,4 +1,6 @@
-package com.musinsa.category.domain
+package com.musinsa.category.domain.repository
+
+import com.musinsa.category.domain.entity.Category
 
 interface CategoryRepository {
     fun findAll(): List<Category>

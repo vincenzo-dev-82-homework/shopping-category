@@ -1,5 +1,6 @@
-package com.musinsa.category.domain
+package com.musinsa.category.domain.entity
 
+import com.musinsa.category.domain.CategoryType
 import com.musinsa.common.Audit
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column

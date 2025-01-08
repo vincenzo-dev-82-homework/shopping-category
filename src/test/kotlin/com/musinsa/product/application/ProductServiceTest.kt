@@ -2,10 +2,10 @@ package com.musinsa.product.application
 
 import com.musinsa.common.exception.ProductNotFoundException
 import com.musinsa.product.api.model.ProductResources
-import com.musinsa.product.domain.Brand
-import com.musinsa.product.domain.BrandRepository
-import com.musinsa.product.domain.Product
-import com.musinsa.product.domain.ProductRepository
+import com.musinsa.product.domain.entity.Brand
+import com.musinsa.product.domain.entity.Product
+import com.musinsa.product.domain.repository.BrandRepository
+import com.musinsa.product.domain.repository.ProductRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue

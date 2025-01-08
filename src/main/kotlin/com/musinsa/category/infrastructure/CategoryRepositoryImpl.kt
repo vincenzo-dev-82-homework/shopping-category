@@ -1,7 +1,7 @@
 package com.musinsa.category.infrastructure
 
-import com.musinsa.category.domain.Category
-import com.musinsa.category.domain.CategoryRepository
+import com.musinsa.category.domain.entity.Category
+import com.musinsa.category.domain.repository.CategoryRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
