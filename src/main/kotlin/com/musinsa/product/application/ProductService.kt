@@ -29,7 +29,7 @@ class ProductService(
         var product =
             productRepository
                 .findById(request.id)
-                .orElseThrow { IllegalArgumentException("Brand with ID ${request.id} not found") }
+                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
 
         request.name.let { product.name = it }
         request.price.let { product.price = it }
@@ -42,7 +42,7 @@ class ProductService(
         var product =
             productRepository
                 .findById(request.id)
-                .orElseThrow { IllegalArgumentException("Brand with ID ${request.id} not found") }
+                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
 
         // TODO check 이미 종료된 것인지 확인
 

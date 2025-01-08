@@ -70,57 +70,6 @@ class ProductControllerTest {
     }
 
     @Test
-    fun `GET findAll should return list of products`() {
-        // Given
-        val product1 =
-            productRepository.save(
-                com.musinsa.product.domain.Product(
-                    name = "상품 A",
-                    price = BigDecimal(1000),
-                    brand = brand,
-                ),
-            )
-        val product2 =
-            productRepository.save(
-                com.musinsa.product.domain.Product(
-                    name = "상품 B",
-                    price = BigDecimal(2000),
-                    brand = brand,
-                ),
-            )
-
-        // When & Then
-        mockMvc
-            .perform(
-                get("/v1/musinsa/products/"),
-            ).andExpect(status().isOk)
-            .andExpect(jsonPath("$.length()").value(2))
-            .andExpect(jsonPath("$[0].id").value(product1.id!!))
-            .andExpect(jsonPath("$[1].id").value(product2.id!!))
-    }
-
-    @Test
-    fun `GET findById should return a product`() {
-        // Given
-        val product =
-            productRepository.save(
-                com.musinsa.product.domain.Product(
-                    name = "상품 A",
-                    price = BigDecimal(1000),
-                    brand = brand,
-                ),
-            )
-
-        // When & Then
-        mockMvc
-            .perform(
-                get("/v1/musinsa/products/${product.id}"),
-            ).andExpect(status().isOk)
-            .andExpect(jsonPath("$.id").value(product.id!!))
-            .andExpect(jsonPath("$.name").value("상품 A"))
-    }
-
-    @Test
     fun `PUT updateProduct should return updated product with links`() {
         // Given
         val product =
@@ -172,5 +121,56 @@ class ProductControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(deleteDTO)),
             ).andExpect(status().isNoContent) // HTTP 204 상태 확인
+    }
+
+    @Test
+    fun `GET findAll should return list of products`() {
+        // Given
+        val product1 =
+            productRepository.save(
+                com.musinsa.product.domain.Product(
+                    name = "상품 A",
+                    price = BigDecimal(1000),
+                    brand = brand,
+                ),
+            )
+        val product2 =
+            productRepository.save(
+                com.musinsa.product.domain.Product(
+                    name = "상품 B",
+                    price = BigDecimal(2000),
+                    brand = brand,
+                ),
+            )
+
+        // When & Then
+        mockMvc
+            .perform(
+                get("/v1/musinsa/products/"),
+            ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()").value(2))
+            .andExpect(jsonPath("$[0].id").value(product1.id!!))
+            .andExpect(jsonPath("$[1].id").value(product2.id!!))
+    }
+
+    @Test
+    fun `GET findById should return a product`() {
+        // Given
+        val product =
+            productRepository.save(
+                com.musinsa.product.domain.Product(
+                    name = "상품 A",
+                    price = BigDecimal(1000),
+                    brand = brand,
+                ),
+            )
+
+        // When & Then
+        mockMvc
+            .perform(
+                get("/v1/musinsa/products/${product.id}"),
+            ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(product.id!!))
+            .andExpect(jsonPath("$.name").value("상품 A"))
     }
 }

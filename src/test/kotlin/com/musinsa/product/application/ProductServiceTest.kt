@@ -6,6 +6,8 @@ import com.musinsa.product.domain.BrandRepository
 import com.musinsa.product.domain.Product
 import com.musinsa.product.domain.ProductRepository
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -13,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.math.BigDecimal
@@ -56,40 +59,122 @@ class ProductServiceTest {
     @Test
     fun `update modify and return updated product`() {
         // Given
-        val brand = Brand(id = 1L, name = "나이스")
-        val product =
+        val productId = 1L
+        val originalProduct =
             Product(
-                id = 1L,
+                id = productId,
                 name = "나이스_샹의",
-                price = BigDecimal(10000),
-                brand = brand,
+                price = BigDecimal("10000"),
+                brand = Brand(id = 1L, name = "나이스", status = Brand.Status.ON),
             )
-        val expected =
+        val updateDTO =
             ProductResources.UpdateDTO(
-                id = 1L,
+                id = productId,
                 name = "나이스_바지",
-                price = BigDecimal(20000),
+                price = BigDecimal("20000"),
             )
-        whenever(productRepository.findById(eq(1L))).thenReturn(Optional.of(product))
-        whenever(productRepository.save(any<Product>())).thenReturn(product)
+
+        whenever(productRepository.findById(productId)).thenReturn(Optional.of(originalProduct))
+        whenever(productRepository.save(any())).thenAnswer { it.arguments[0] as Product }
 
         // When
-        val actual = productService.update(expected)
+        val updatedProduct = productService.update(updateDTO)
 
         // Then
-        assertEquals(expected.name, actual.name)
-        assertEquals(expected.price, actual.price)
-        verify(productRepository).save(product)
+        verify(productRepository).findById(productId)
+        verify(productRepository).save(updatedProduct)
+
+        assertEquals("나이스_바지", updatedProduct.name)
+        assertEquals(BigDecimal("20000"), updatedProduct.price)
     }
 
     @Test
-    fun `findById throw exception if product not found`() {
+    fun `update throw exception if product not found`() {
         // Given
-        whenever(productRepository.findById(eq(1L))).thenReturn(Optional.empty())
+        val productId = 1L
+        val updateDTO =
+            ProductResources.UpdateDTO(
+                id = productId,
+                name = "나이스_바지",
+                price = BigDecimal("20000"),
+            )
+
+        whenever(productRepository.findById(productId)).thenReturn(Optional.empty())
 
         // When & Then
-        assertThrows<NoSuchElementException> {
-            productService.findById(1L)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                productService.update(updateDTO)
+            }
+
+        assertEquals("Brand ID $productId not found", exception.message)
+        verify(productRepository).findById(productId)
+    }
+
+    @Test
+    fun `delete terminate and save product`() {
+        // Given
+        val productId = 1L
+        val originalProduct =
+            Product(
+                id = productId,
+                name = "나이스_샹의",
+                price = BigDecimal("10000"),
+                brand = Brand(id = 1L, name = "나이스", status = Brand.Status.ON),
+            )
+        val deleteDTO = ProductResources.DeleteDTO(id = productId)
+
+        whenever(productRepository.findById(productId)).thenReturn(Optional.of(originalProduct))
+        whenever(productRepository.save(any())).thenAnswer { it.arguments[0] as Product }
+
+        // When
+        productService.delete(deleteDTO)
+
+        // Then
+        verify(productRepository).findById(productId)
+        verify(productRepository).save(originalProduct)
+
+        assertTrue(originalProduct.isTerminated())
+    }
+
+    @Test
+    fun `delete throw exception if product not found`() {
+        // Given
+        val productId = 1L
+        val deleteDTO = ProductResources.DeleteDTO(id = productId)
+
+        whenever(productRepository.findById(productId)).thenReturn(Optional.empty())
+
+        // When & Then
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                productService.delete(deleteDTO)
+            }
+
+        assertEquals("Brand ID $productId not found", exception.message)
+        verify(productRepository).findById(productId)
+        verify(productRepository, never()).save(any())
+    }
+
+    @Test
+    fun `findById should return product response DTO`() {
+        // Given
+        val productId = 1L
+        val product =
+            Product(
+                id = productId,
+                name = "나이스_샹의",
+                price = BigDecimal("10000"),
+                brand = Brand(id = 1L, name = "나이스", status = Brand.Status.ON),
+            )
+        whenever(productRepository.findById(productId)).thenReturn(Optional.of(product))
+
+        // When
+        val response = productService.findById(productId)
+
+        // Then
+        assertNotNull(response)
+        assertEquals(productId, response.id)
+        verify(productRepository).findById(productId)
     }
 }
