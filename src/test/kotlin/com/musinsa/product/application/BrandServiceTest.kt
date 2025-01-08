@@ -1,5 +1,6 @@
 package com.musinsa.product.application
 
+import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
@@ -82,7 +83,7 @@ class BrandServiceTest {
 
         // When & Then
         val exception =
-            assertThrows<IllegalArgumentException> {
+            assertThrows<BrandNotFoundException> {
                 brandService.update(updateDTO)
             }
 
@@ -143,7 +144,7 @@ class BrandServiceTest {
 
         // When & Then
         val exception =
-            assertThrows<IllegalArgumentException> {
+            assertThrows<BrandNotFoundException> {
                 brandService.delete(deleteDTO)
             }
 

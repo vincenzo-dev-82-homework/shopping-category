@@ -1,5 +1,6 @@
 package com.musinsa.product.application
 
+import com.musinsa.common.exception.ProductNotFoundException
 import com.musinsa.product.api.model.ProductResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
@@ -103,11 +104,11 @@ class ProductServiceTest {
 
         // When & Then
         val exception =
-            assertThrows<IllegalArgumentException> {
+            assertThrows<ProductNotFoundException> {
                 productService.update(updateDTO)
             }
 
-        assertEquals("Brand ID $productId not found", exception.message)
+        assertEquals("Product ID $productId not found", exception.message)
         verify(productRepository).findById(productId)
     }
 
@@ -147,11 +148,11 @@ class ProductServiceTest {
 
         // When & Then
         val exception =
-            assertThrows<IllegalArgumentException> {
+            assertThrows<ProductNotFoundException> {
                 productService.delete(deleteDTO)
             }
 
-        assertEquals("Brand ID $productId not found", exception.message)
+        assertEquals("Product ID $productId not found", exception.message)
         verify(productRepository).findById(productId)
         verify(productRepository, never()).save(any())
     }

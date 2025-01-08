@@ -1,5 +1,6 @@
 package com.musinsa.product.application
 
+import com.musinsa.common.exception.ProductNotFoundException
 import com.musinsa.product.api.model.ProductResources
 import com.musinsa.product.domain.BrandRepository
 import com.musinsa.product.domain.Product
@@ -29,7 +30,7 @@ class ProductService(
         var product =
             productRepository
                 .findById(request.id)
-                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
+                .orElseThrow { ProductNotFoundException("Product ID ${request.id} not found", request.id) }
 
         request.name.let { product.name = it }
         request.price.let { product.price = it }
@@ -42,7 +43,7 @@ class ProductService(
         var product =
             productRepository
                 .findById(request.id)
-                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
+                .orElseThrow { ProductNotFoundException("Product ID ${request.id} not found", request.id) }
 
         // TODO check 이미 종료된 것인지 확인
 

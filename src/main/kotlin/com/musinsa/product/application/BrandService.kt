@@ -1,5 +1,6 @@
 package com.musinsa.product.application
 
+import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.Brand
 import com.musinsa.product.domain.BrandRepository
@@ -25,7 +26,7 @@ class BrandService(
         var brand =
             brandRepository
                 .findById(request.id)
-                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
+                .orElseThrow { BrandNotFoundException("Brand ID ${request.id} not found", request.id) }
 
         request.name.let { brand.name = it }
         request.status.let {
@@ -42,7 +43,7 @@ class BrandService(
         var brand =
             brandRepository
                 .findById(request.id)
-                .orElseThrow { IllegalArgumentException("Brand ID ${request.id} not found") }
+                .orElseThrow { BrandNotFoundException("Brand ID ${request.id} not found", request.id) }
 
         brand.terminate()
         brandRepository.delete(brand)
