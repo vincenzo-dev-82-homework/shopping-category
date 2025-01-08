@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import java.time.LocalDateTime
@@ -41,30 +42,77 @@ class BrandServiceTest {
     }
 
     @Test
-    fun `update brand's name and status`() {
+    fun `update modify and return updated brand`() {
         // Given
-        val existingBrand = Brand(id = 1L, name = "나이스", status = Brand.Status.ON)
-        val updatedName = "나이키"
-        val updatedStatus = "중지"
-        val request = BrandResources.UpdateDTO(id = 1L, name = updatedName, status = updatedStatus)
+        val brandId = 1L
+        val originalBrand = Brand(id = brandId, name = "나이스", status = Brand.Status.ON)
+        val updateDTO =
+            BrandResources.UpdateDTO(
+                id = brandId,
+                name = "나이키",
+                status = Brand.Status.OFF.desc,
+            )
 
-        whenever(brandRepository.findById(1L)).thenReturn(Optional.of(existingBrand))
-        whenever(brandRepository.save(any())).thenReturn(
-            existingBrand.apply {
-                name = updatedName
-                status = Brand.Status.OFF
-            },
-        )
+        whenever(brandRepository.findById(brandId)).thenReturn(Optional.of(originalBrand))
+        whenever(brandRepository.save(any())).thenAnswer { it.arguments[0] as Brand }
 
         // When
-        val updatedBrand = brandService.update(request)
+        val updatedBrand = brandService.update(updateDTO)
 
         // Then
-        verify(brandRepository).findById(1L)
-        verify(brandRepository).save(existingBrand)
+        verify(brandRepository).findById(brandId)
+        verify(brandRepository).save(updatedBrand)
 
-        assertEquals(updatedName, updatedBrand.name)
+        assertEquals("나이키", updatedBrand.name)
         assertEquals(Brand.Status.OFF, updatedBrand.status)
+    }
+
+    @Test
+    fun `update throw exception if brand not found`() {
+        // Given
+        val brandId = 1L
+        val updateDTO =
+            BrandResources.UpdateDTO(
+                id = brandId,
+                name = "나이키",
+                status = Brand.Status.ON.desc,
+            )
+
+        whenever(brandRepository.findById(brandId)).thenReturn(Optional.empty())
+
+        // When & Then
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                brandService.update(updateDTO)
+            }
+
+        assertEquals("Brand ID $brandId not found", exception.message)
+        verify(brandRepository).findById(brandId)
+    }
+
+    @Test
+    fun `update throw exception for invalid status`() {
+        // Given
+        val brandId = 1L
+        val originalBrand = Brand(id = brandId, name = "나이스", status = Brand.Status.ON)
+        val updateDTO =
+            BrandResources.UpdateDTO(
+                id = brandId,
+                name = "나이키",
+                status = "Invalid Status",
+            )
+
+        whenever(brandRepository.findById(brandId)).thenReturn(Optional.of(originalBrand))
+
+        // When & Then
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                brandService.update(updateDTO)
+            }
+
+        assertEquals("Invalid status: Invalid Status", exception.message)
+        verify(brandRepository).findById(brandId)
+        verify(brandRepository, never()).save(any())
     }
 
     @Test
