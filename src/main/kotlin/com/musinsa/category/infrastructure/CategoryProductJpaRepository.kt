@@ -16,7 +16,7 @@ interface CategoryProductJpaRepository : JpaRepository<CategoryProduct, Long> {
     ORDER BY p.price ASC
     """,
     )
-    fun findLowestPriceByCategoryId(
+    fun findLowestPriceByCategories(
         @Param("categoryId") categoryId: Long,
     ): List<CategoryProduct> // Optional에서 List로 변경
 
@@ -34,4 +34,64 @@ interface CategoryProductJpaRepository : JpaRepository<CategoryProduct, Long> {
         @Param("brandId") brandId: Long,
         @Param("categoryId") categoryId: Long,
     ): CategoryProduct?
+//
+//    @Query(
+//        """
+//        SELECT cp
+//        FROM CategoryProduct cp
+//        JOIN FETCH cp.product p
+//        JOIN FETCH p.brand b
+//        WHERE cp.category.id = :categoryId
+//        ORDER BY p.price ASC
+//        """,
+//    )
+//    fun findLowestPriceByCategoryId(
+//        @Param("categoryId") categoryId: Long,
+//    ): Optional<CategoryProduct>
+//
+//    @Query(
+//        """
+//        SELECT cp
+//        FROM CategoryProduct cp
+//        JOIN FETCH cp.product p
+//        JOIN FETCH p.brand b
+//        WHERE cp.category.id = :categoryId
+//        ORDER BY p.price DESC
+//        """,
+//    )
+//    fun findHighestPriceByCategoryId(
+//        @Param("categoryId") categoryId: Long,
+//    ): Optional<CategoryProduct>
+
+    @Query(
+        value = """
+    SELECT cp.id AS categoryProductId, p.id AS productId, p.price AS productPrice, b.name AS brandName
+    FROM category_product cp
+    JOIN product p ON cp.product_id = p.id
+    JOIN brand b ON p.brand_id = b.id
+    WHERE cp.category_id = :categoryId
+    ORDER BY p.price ASC, b.name ASC
+    LIMIT 1
+    """,
+        nativeQuery = true,
+    )
+    fun findLowestPriceByCategoryId(
+        @Param("categoryId") categoryId: Long,
+    ): Map<String, Any>
+
+    @Query(
+        value = """
+    SELECT cp.id AS categoryProductId, p.id AS productId, p.price AS productPrice, b.name AS brandName
+    FROM category_product cp
+    JOIN product p ON cp.product_id = p.id
+    JOIN brand b ON p.brand_id = b.id
+    WHERE cp.category_id = :categoryId
+    ORDER BY p.price DESC, b.name ASC
+    LIMIT 1
+    """,
+        nativeQuery = true,
+    )
+    fun findHighestPriceByCategoryId(
+        @Param("categoryId") categoryId: Long,
+    ): Map<String, Any>
 }

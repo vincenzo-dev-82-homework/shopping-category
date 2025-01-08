@@ -26,7 +26,7 @@ class CategoryService(
         // 각 카테고리에서 최저 가격 상품과 해당 브랜드를 찾음
         val categoryProducts =
             categories.mapNotNull { category ->
-                val lowestProducts = categoryProductRepository.findLowestPriceByCategoryId(category.id!!)
+                val lowestProducts = categoryProductRepository.findLowestPriceByCategories(category.id!!)
 
                 // 상품이 존재하면 첫 번째 상품을 선택, 없으면 null 반환
                 lowestProducts.firstOrNull()?.let { lowestProduct ->
@@ -91,4 +91,41 @@ class CategoryService(
         val categoryPrices: List<CategoryResources.CategoryPriceDTO>,
         val totalPrice: BigDecimal,
     )
+
+    @Transactional(readOnly = true)
+    fun getCategoryPriceDetails(categoryName: String): CategoryResources.PriceResponse {
+        // 카테고리를 조회
+        val category =
+            categoryRepository.findByName(categoryName)
+                ?: throw IllegalArgumentException("Category '$categoryName' not found")
+
+        // 최저 가격 상품 조회
+        val lowestPriceResult =
+            categoryProductRepository.findLowestPriceByCategoryId(category.id!!)
+                ?: throw IllegalArgumentException("No products found for category '${category.name}'")
+
+        // 최고 가격 상품 조회
+        val highestPriceResult =
+            categoryProductRepository.findHighestPriceByCategoryId(category.id!!)
+                ?: throw IllegalArgumentException("No products found for category '${category.name}'")
+
+        // 결과 매핑
+        return CategoryResources.PriceResponse(
+            categoryName = category.name,
+            lowestPrice =
+                listOf(
+                    CategoryResources.PriceDetailDTO(
+                        brandName = lowestPriceResult["brandName"] as String,
+                        price = lowestPriceResult["productPrice"] as BigDecimal,
+                    ),
+                ),
+            highestPrice =
+                listOf(
+                    CategoryResources.PriceDetailDTO(
+                        brandName = highestPriceResult["brandName"] as String,
+                        price = highestPriceResult["productPrice"] as BigDecimal,
+                    ),
+                ),
+        )
+    }
 }
