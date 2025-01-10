@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * 구현 4) 브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API
+ */
 @Tag(name = "상품 생성 및 조회")
 @RestController
 @RequestMapping("/v1/musinsa/products")

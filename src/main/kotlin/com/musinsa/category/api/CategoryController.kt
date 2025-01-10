@@ -33,9 +33,9 @@ class CategoryController(
     /**
      * 구현 3) - 카테고리 이름으로 최저, 최고 가격 브랜드와 상품 가격을 조회하는 API
      */
-    @GetMapping("/{categoryName}/prices")
+    @GetMapping("/prices")
     fun getCategoryPriceDetails(
-        @RequestParam("categoryName") categoryName: String,
+        @RequestParam(name = "categoryName", required = true) categoryName: String,
     ): ResponseEntity<CategoryResources.PriceResponse> {
         val response = categoryService.getCategoryPriceDetails(categoryName)
         return ResponseEntity.ok(response)
