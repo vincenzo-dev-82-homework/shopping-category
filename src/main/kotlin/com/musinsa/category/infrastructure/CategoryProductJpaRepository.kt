@@ -34,34 +34,6 @@ interface CategoryProductJpaRepository : JpaRepository<CategoryProduct, Long> {
         @Param("brandId") brandId: Long,
         @Param("categoryId") categoryId: Long,
     ): CategoryProduct?
-//
-//    @Query(
-//        """
-//        SELECT cp
-//        FROM CategoryProduct cp
-//        JOIN FETCH cp.product p
-//        JOIN FETCH p.brand b
-//        WHERE cp.category.id = :categoryId
-//        ORDER BY p.price ASC
-//        """,
-//    )
-//    fun findLowestPriceByCategoryId(
-//        @Param("categoryId") categoryId: Long,
-//    ): Optional<CategoryProduct>
-//
-//    @Query(
-//        """
-//        SELECT cp
-//        FROM CategoryProduct cp
-//        JOIN FETCH cp.product p
-//        JOIN FETCH p.brand b
-//        WHERE cp.category.id = :categoryId
-//        ORDER BY p.price DESC
-//        """,
-//    )
-//    fun findHighestPriceByCategoryId(
-//        @Param("categoryId") categoryId: Long,
-//    ): Optional<CategoryProduct>
 
     @Query(
         value = """

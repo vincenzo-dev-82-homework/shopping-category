@@ -7,20 +7,21 @@ import org.springframework.stereotype.Repository
 @Repository
 class CategoryProductRepositoryImpl(
     private val categoryProductJpaRepository: CategoryProductJpaRepository,
+    private val categoryProductDSLRepository: CategoryProductDSLRepository,
 ) : CategoryProductRepository {
     override fun findLowestPriceByCategories(categoryId: Long): List<CategoryProduct> =
-        categoryProductJpaRepository.findLowestPriceByCategories(categoryId)
+        categoryProductDSLRepository.findLowestPriceByCategories(categoryId)
 
     override fun findLowestPriceByBrandAndCategory(
         brandId: Long,
         categoryId: Long,
-    ): CategoryProduct? = categoryProductJpaRepository.findLowestPriceByBrandAndCategory(brandId, categoryId)
+    ): CategoryProduct? = categoryProductDSLRepository.findLowestPriceByBrandAndCategory(brandId, categoryId)
 
     override fun findLowestPriceByCategoryId(categoryId: Long): Map<String, Any>? =
-        categoryProductJpaRepository.findLowestPriceByCategoryId(categoryId)
+        categoryProductDSLRepository.findLowestPriceByCategoryId(categoryId)
 
     override fun findHighestPriceByCategoryId(categoryId: Long): Map<String, Any>? =
-        categoryProductJpaRepository.findHighestPriceByCategoryId(categoryId)
+        categoryProductDSLRepository.findHighestPriceByCategoryId(categoryId)
 
     override fun save(categoryProduct: CategoryProduct): CategoryProduct = categoryProductJpaRepository.save(categoryProduct)
 
