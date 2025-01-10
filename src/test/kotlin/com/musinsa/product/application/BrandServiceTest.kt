@@ -1,11 +1,10 @@
 package com.musinsa.product.application
 
-import com.musinsa.category.domain.repository.CategoryProductRepository
-import com.musinsa.category.domain.repository.CategoryRepository
 import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.entity.Brand
 import com.musinsa.product.domain.repository.BrandRepository
+import com.musinsa.product.domain.service.BrandDomainService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -23,9 +22,8 @@ import kotlin.test.assertTrue
 @ExtendWith(MockitoExtension::class)
 class BrandServiceTest {
     private val brandRepository: BrandRepository = mock()
-    private val categoryRepository: CategoryRepository = mock()
-    private val categoryProductRepository: CategoryProductRepository = mock()
-    private val brandService = BrandService(brandRepository, categoryRepository, categoryProductRepository)
+    private val brandDomainService: BrandDomainService = mock()
+    private val brandService = BrandService(brandRepository, brandDomainService)
 
     @Test
     fun `create save then return brand`() {

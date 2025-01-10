@@ -1,6 +1,5 @@
-package com.musinsa.category
+package com.musinsa.category.domain
 
-import com.musinsa.category.domain.CategoryType
 import com.musinsa.category.domain.entity.Category
 
 internal class CategoryTest

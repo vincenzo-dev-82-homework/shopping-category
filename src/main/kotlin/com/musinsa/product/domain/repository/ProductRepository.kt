@@ -8,6 +8,8 @@ interface ProductRepository {
 
     fun findById(id: Long): Optional<Product>
 
+    fun findByName(name: String): Optional<Product>
+
     fun save(product: Product): Product
 
     /**

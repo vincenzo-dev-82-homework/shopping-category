@@ -21,4 +21,8 @@ class CategoryProductRepositoryImpl(
 
     override fun findHighestPriceByCategoryId(categoryId: Long): Map<String, Any>? =
         categoryProductJpaRepository.findHighestPriceByCategoryId(categoryId)
+
+    override fun save(categoryProduct: CategoryProduct): CategoryProduct = categoryProductJpaRepository.save(categoryProduct)
+
+    override fun count(): Long = categoryProductJpaRepository.count()
 }

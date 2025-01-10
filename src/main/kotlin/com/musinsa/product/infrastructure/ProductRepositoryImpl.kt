@@ -13,6 +13,8 @@ class ProductRepositoryImpl(
 
     override fun findById(id: Long): Optional<Product> = productJpaRepository.findById(id)
 
+    override fun findByName(name: String): Optional<Product> = productJpaRepository.findByName(name)
+
     override fun save(product: Product): Product = productJpaRepository.save(product)
 
     /**
