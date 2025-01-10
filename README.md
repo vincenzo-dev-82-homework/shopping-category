@@ -134,7 +134,7 @@ CategoryType과 같은 Enum, CategoryResources의 DTO 클래스는 변경에 유
   단일 브랜드로 모든 카테고리 상품을 구매할 경우, 최저가격을 제공하는 브랜드와 각 카테고리의 상품 가격, 총액을 조회합니다.
 - **요청**  
   HTTP Method: `GET`  
-  URL: `/v1/musinsa/categories/lowest-price-brand`  
+  URL: `/v1/musinsa/brands/lowest-price`  
   Request Body: 없음
 
 - **응답**

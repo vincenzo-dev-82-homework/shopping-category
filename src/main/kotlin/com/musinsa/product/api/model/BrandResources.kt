@@ -1,8 +1,10 @@
 package com.musinsa.product.api.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.musinsa.category.api.CategoryResources.CategoryPriceDTO
 import com.musinsa.product.domain.entity.Brand
 import org.springframework.hateoas.RepresentationModel
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 class BrandResources {
@@ -55,4 +57,13 @@ class BrandResources {
                 }
         }
     }
+
+    /**
+     * 단일 브랜드로 모든 카테고리 상품을 구매할 때 최저가 정보 응답
+     */
+    data class LowestPriceBrandResponse(
+        val brandName: String, // 최저가 브랜드 이름
+        val categoryPrices: List<CategoryPriceDTO>, // 카테고리별 상품 가격 정보
+        val totalPrice: BigDecimal, // 총합 가격
+    )
 }
