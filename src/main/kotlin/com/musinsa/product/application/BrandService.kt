@@ -1,17 +1,14 @@
 package com.musinsa.product.application
 
-import com.musinsa.category.api.CategoryResources
-import com.musinsa.category.domain.repository.CategoryProductRepository
-import com.musinsa.category.domain.repository.CategoryRepository
 import com.musinsa.common.exception.BrandAlreadyExistsException
 import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.entity.Brand
 import com.musinsa.product.domain.repository.BrandRepository
+import com.musinsa.product.domain.service.BrandDomainService
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
 
 /**
  * ApplicationService는 비즈니스의 흐름과 트랜잭션을 관리한다.
@@ -19,8 +16,7 @@ import java.math.BigDecimal
 @Service
 class BrandService(
     private val brandRepository: BrandRepository,
-    private val categoryRepository: CategoryRepository,
-    private val categoryProductRepository: CategoryProductRepository,
+    private val brandDomainService: BrandDomainService,
 ) {
     @Transactional
     fun create(request: BrandResources.RequestDTO): Brand {
@@ -78,48 +74,12 @@ class BrandService(
 
     @Transactional(readOnly = true)
     fun getLowestPriceBrand(): BrandResources.LowestPriceBrandResponse {
-        // 모든 브랜드를 조회
         val brands = brandRepository.findAll()
-
-        // 각 브랜드에서 모든 카테고리의 최저 가격 상품을 계산
-        val brandTotals =
-            brands.mapNotNull { brand ->
-                val categoryPrices =
-                    categoryRepository.findAll().mapNotNull { category ->
-                        val lowestProduct = categoryProductRepository.findLowestPriceByBrandAndCategory(brand.id!!, category.id!!)
-                        lowestProduct?.let {
-                            CategoryResources.CategoryPriceDTO(
-                                categoryName = category.name,
-                                price = it.product.price,
-                            )
-                        }
-                    }
-
-                if (categoryPrices.size.toLong() == categoryRepository.count()) {
-                    // 모든 카테고리의 상품이 존재하는 브랜드만 포함
-                    val totalPrice = categoryPrices.sumOf { it.price }
-                    BrandTotalPrice(brandName = brand.name, categoryPrices = categoryPrices, totalPrice = totalPrice)
-                } else {
-                    null
-                }
-            }
-
-        // 최저가 브랜드를 선택
-        val lowestPriceBrand =
-            brandTotals.minByOrNull { it.totalPrice }
-                ?: throw IllegalArgumentException("No brand meets the criteria for lowest price")
-
-        // 최종 응답 생성
+        val lowestPriceBrand = brandDomainService.calculateLowestPriceBrand(brands)
         return BrandResources.LowestPriceBrandResponse(
             brandName = lowestPriceBrand.brandName,
             categoryPrices = lowestPriceBrand.categoryPrices,
             totalPrice = lowestPriceBrand.totalPrice,
         )
     }
-
-    data class BrandTotalPrice(
-        val brandName: String,
-        val categoryPrices: List<CategoryResources.CategoryPriceDTO>,
-        val totalPrice: BigDecimal,
-    )
 }

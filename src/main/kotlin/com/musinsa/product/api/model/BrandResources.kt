@@ -63,7 +63,28 @@ class BrandResources {
      */
     data class LowestPriceBrandResponse(
         val brandName: String, // 최저가 브랜드 이름
-        val categoryPrices: List<CategoryPriceDTO>, // 카테고리별 상품 가격 정보
+        val categoryPrices: List<CategoryPrice>, // 카테고리별 상품 가격 정보
         val totalPrice: BigDecimal, // 총합 가격
     )
+
+    data class BrandTotalPrice(
+        val brandName: String,
+        val categoryPrices: List<CategoryPrice>,
+        val totalPrice: BigDecimal,
+    )
+
+    data class CategoryPrice(
+        val categoryName: String,
+        val price: BigDecimal,
+    ) {
+        companion object {
+            fun convert(categoryPrices: List<CategoryPriceDTO>): List<CategoryPrice> =
+                categoryPrices.map { categoryPrice ->
+                    CategoryPrice(
+                        categoryName = categoryPrice.categoryName,
+                        price = categoryPrice.price,
+                    )
+                }
+        }
+    }
 }

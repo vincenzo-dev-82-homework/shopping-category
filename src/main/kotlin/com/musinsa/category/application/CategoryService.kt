@@ -4,7 +4,6 @@ import com.musinsa.category.api.CategoryResources
 import com.musinsa.category.domain.entity.Category
 import com.musinsa.category.domain.repository.CategoryProductRepository
 import com.musinsa.category.domain.repository.CategoryRepository
-import com.musinsa.product.domain.repository.BrandRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -13,7 +12,6 @@ import java.math.BigDecimal
 class CategoryService(
     private val categoryRepository: CategoryRepository,
     private val categoryProductRepository: CategoryProductRepository,
-    private val brandRepository: BrandRepository,
 ) {
     @Transactional
     fun create(category: Category): Category = categoryRepository.save(category)
