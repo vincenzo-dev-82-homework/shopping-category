@@ -190,7 +190,7 @@ CategoryType과 같은 Enum, CategoryResources의 DTO 클래스는 변경에 유
 - **요청**  
   HTTP Method: `GET`  
   URL: `/v1/musinsa/categories/{categoryName}/prices`  
-  Query Parameter:
+  Path Parameter:
   - `categoryName` (필수): 조회할 카테고리 이름 (예: "상의")
 
 - **응답**

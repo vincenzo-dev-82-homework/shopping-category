@@ -71,8 +71,7 @@ class CategoryControllerTest
         fun `GET prices should return lowest and highest price for a category`() {
             val categoryName = "상의"
             mockMvc
-                .get("/v1/musinsa/categories/prices") {
-                    param("categoryName", categoryName)
+                .get("/v1/musinsa/categories/$categoryName/prices") {
                 }.andExpect {
                     status { isOk() }
                     content {
