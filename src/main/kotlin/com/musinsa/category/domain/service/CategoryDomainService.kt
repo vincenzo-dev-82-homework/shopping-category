@@ -4,6 +4,7 @@ import com.musinsa.category.api.CategoryResources
 import com.musinsa.category.domain.entity.Category
 import com.musinsa.category.domain.repository.CategoryProductRepository
 import com.musinsa.category.domain.repository.CategoryRepository
+import com.musinsa.common.exception.CategoryNotFoundException
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 
@@ -47,7 +48,7 @@ class CategoryDomainService(
 
     fun findCategoryByName(categoryName: String): Category =
         categoryRepository.findByName(categoryName)
-            ?: throw IllegalArgumentException("Category $categoryName not found")
+            ?: throw CategoryNotFoundException("CategoryName $categoryName not found", categoryName)
 
     fun getCategoryPricesForBrand(brandId: Long): List<CategoryResources.CategoryPriceDTO> {
         val categories = categoryRepository.findAll()
