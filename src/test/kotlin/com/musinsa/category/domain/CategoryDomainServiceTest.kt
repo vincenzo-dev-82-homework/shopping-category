@@ -5,6 +5,7 @@ import com.musinsa.category.domain.entity.CategoryProduct
 import com.musinsa.category.domain.repository.CategoryProductRepository
 import com.musinsa.category.domain.repository.CategoryRepository
 import com.musinsa.category.domain.service.CategoryDomainService
+import com.musinsa.common.exception.CategoryNotFoundException
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -98,10 +99,10 @@ class CategoryDomainServiceTest {
 
         // When & Then
         val exception =
-            assertThrows<IllegalArgumentException> {
+            assertThrows<CategoryNotFoundException> {
                 categoryDomainService.findCategoryByName(categoryName)
             }
-        assertEquals("Category $categoryName not found", exception.message)
+        assertEquals("CategoryName $categoryName not found", exception.message)
     }
 
     @Test
