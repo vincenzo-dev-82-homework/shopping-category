@@ -11,6 +11,9 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+/**
+ * ApplicationService는 비즈니스의 흐름과 트랜잭션을 관리한다.
+ */
 @Service
 class ProductService(
     private val brandRepository: BrandRepository,

@@ -1,5 +1,7 @@
 package com.musinsa.product.application
 
+import com.musinsa.category.domain.repository.CategoryProductRepository
+import com.musinsa.category.domain.repository.CategoryRepository
 import com.musinsa.common.exception.BrandNotFoundException
 import com.musinsa.product.api.model.BrandResources
 import com.musinsa.product.domain.entity.Brand
@@ -21,7 +23,9 @@ import kotlin.test.assertTrue
 @ExtendWith(MockitoExtension::class)
 class BrandServiceTest {
     private val brandRepository: BrandRepository = mock()
-    private val brandService = BrandService(brandRepository)
+    private val categoryRepository: CategoryRepository = mock()
+    private val categoryProductRepository: CategoryProductRepository = mock()
+    private val brandService = BrandService(brandRepository, categoryRepository, categoryProductRepository)
 
     @Test
     fun `create save then return brand`() {
