@@ -1,13 +1,13 @@
 /* INSERT BRAND */
-INSERT INTO brand(id, name, status) VALUES(1, 'A', 'ON');
-INSERT INTO brand(id, name, status) VALUES(2, 'B', 'ON');
-INSERT INTO brand(id, name, status) VALUES(3, 'C', 'ON');
-INSERT INTO brand(id, name, status) VALUES(4, 'D', 'ON');
-INSERT INTO brand(id, name, status) VALUES(5, 'E', 'ON');
-INSERT INTO brand(id, name, status) VALUES(6, 'F', 'ON');
-INSERT INTO brand(id, name, status) VALUES(7, 'G', 'ON');
-INSERT INTO brand(id, name, status) VALUES(8, 'H', 'ON');
-INSERT INTO brand(id, name, status) VALUES(9, 'I', 'ON');
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(1, 'A', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(2, 'B', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(3, 'C', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(4, 'D', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(5, 'E', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(6, 'F', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(7, 'G', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(8, 'H', 'ON', now(), now());
+INSERT INTO brand(id, name, status, created_at, modified_at) VALUES(9, 'I', 'ON', now(), now());
 
 /* INSERT PRODUCT */
 INSERT INTO product(id, name, price, brand_id, status) VALUES(1, 'A_상의', 11200, 1, 'ON');
